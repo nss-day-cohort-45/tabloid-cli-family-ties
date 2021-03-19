@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TabloidCLI.UserInterfaceManagers
 {
     public class MainMenuManager : IUserInterfaceManager
     {
-        private const string CONNECTION_STRING = 
+        private const string CONNECTION_STRING =
             @"Data Source=localhost\SQLEXPRESS;Database=TabloidCLI;Integrated Security=True";
 
         public IUserInterfaceManager Execute()
@@ -20,36 +21,86 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine(" 0) Exit");
 
             Console.Write("> ");
-            string choice = Console.ReadLine();
-            switch (choice)
+            string choice = GetMenuSelection();
+
+            bool runningMenu = true;
+            while (runningMenu)
             {
-                case "1": 
-                    Console.Write("Please enter entry title.");
-                    string journalTitle = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        Console.Write("Please enter entry title.");
+                        string journalTitle = Console.ReadLine();
 
-                    Console.Write("Please enter entry content.");
-                    string journalContent = Console.ReadLine();
+                        Console.Write("Please enter entry content.");
+                        string journalContent = Console.ReadLine();
 
-                    Journal entryToAdd = new Journal()
-                    {
-                        Title = journalTitle,
-                        TextContent = journalContent,
-                        CreationDate = 
+                        Journal entryToAdd = new Journal()
+                        {
+                            Title = journalTitle,
+                            Content = journalContent,
+                            CreationDate =
+                        };
+                        journalRepo.Insert(entryToAdd);
+                        Console.WriteLine($"{entryToAdd.Title} has been added and assigned an Id of {entryToAdd.Id}");
+                        Console.Write("Press any key to continue");
+                        Console.ReadKey();
+                        break;
 
-                    };
-
-                case "2": throw new NotImplementedException();
-                case "3": return new AuthorManager(this, CONNECTION_STRING);
-                case "4": throw new NotImplementedException();
-                case "5": return new TagManager(this, CONNECTION_STRING);
-                case "6": return new SearchManager(this, CONNECTION_STRING);
-                case "0":
-                    Console.WriteLine("Good bye");
-                    return null;
-                default:
-                    Console.WriteLine("Invalid Selection");
-                    return this;
+                    case "2": throw new NotImplementedException();
+                    case "3": return new AuthorManager(this, CONNECTION_STRING);
+                    case "4": throw new NotImplementedException();
+                    case "5": return new TagManager(this, CONNECTION_STRING);
+                    case "6": return new SearchManager(this, CONNECTION_STRING);
+                    case "0":
+                        Console.WriteLine("Good bye");
+                        return null;
+                    default:
+                        Console.WriteLine("Invalid Selection");
+                        return this;
+                }
             }
         }
+
+        static string GetMenuSelection()
+        {
+            Console.Clear();
+
+            List<string> options = new List<string>()
+        {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "0",
+        };
+
+            for (int i = 0; i < options.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {options[i]}");
+            }
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine();
+                    Console.Write("Select an option > ");
+
+                    string input = Console.ReadLine();
+                    int index = int.Parse(input) - 1;
+                    return options[index];
+                }
+                catch (Exception)
+                {
+
+                    continue;
+                }
+            }
+
+        }
+
     }
 }
