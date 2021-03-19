@@ -6,8 +6,11 @@ namespace TabloidCLI.Models
 {
     class Journal
     {
+        public int Id { get; set; }
         public String Title { get; set; }
         public String Content { get; set; }
-        public DateTime CreateDateTime { get; set; }
+        public String CreateDateTime { get; set; }
     }
 }
+
+//createdatetime is supposed to be a type of datetime
