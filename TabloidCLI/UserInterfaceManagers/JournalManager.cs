@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using Journal.Models;
-using Journal.Repositories;
+using TabloidCLI.Models;
+using TabloidCLI.Repositories;
 
 namespace TabloidCLI.UserInterfaceManagers
-  //private const string CONNECTION_STRING = @"server=localhost\SQLExpress;database=Roommates;integrated security=true";
+//private const string CONNECTION_STRING = @"server=localhost\SQLExpress;database=Roommates;integrated security=true";
 {
     public class JournalManager : IUserInterfaceManager
     {
         JournalRepository journalRepo = new JournalRepository(CONNECTION_STRING);
-        
+
         bool runProgram = true;
         while (runProgram)
         {
@@ -21,21 +21,22 @@ namespace TabloidCLI.UserInterfaceManagers
                     Console.Write("Please enter entry title.");
                     string journalTitle = Console.ReadLine();
 
-                    Console.Write("Please enter entry content.");
+        Console.Write("Please enter entry content.");
                     string journalContent = Console.ReadLine();
 
-                    Journal entryToAdd = new Journal()
-                    {
-                        Title = journalTitle,
-                        Content = journalContent,
-                        CreationDate =
+        Journal entryToAdd = new Journal()
+        {
+            Title = journalTitle,
+            Content = journalContent,
+            CreationDate =
                                     };
-                    journalRepo.Insert(entryToAdd);
+        journalRepo.Insert(entryToAdd);
                         Console.WriteLine($"{entryToAdd.Title} has been added and assigned an Id of {entryToAdd.Id}");
                         Console.Write("Press any key to continue");
                         Console.ReadKey();
                 break;
-            }
+     }
+     
 
             static string GetMenuSelection()
             {
