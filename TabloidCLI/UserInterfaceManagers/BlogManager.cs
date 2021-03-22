@@ -100,12 +100,10 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("Title: ");
             blog.Title = Console.ReadLine();
 
-            Console.WriteLine("Text Content: ");
-            blog.Content = Console.ReadLine();
+            Console.WriteLine("Url: ");
+            blog.Url = Console.ReadLine();
 
-            //make this an auto time setter
-            Console.WriteLine("Date: ");
-            blog.CreateDateTime = DateTime.Now;
+           
 
             _BlogRepository.Insert(blog);
         }
@@ -125,16 +123,12 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 BlogToEdit.Title = title;
             }
-            Console.Write("New content (blank to leave unchanged: ");
+            Console.Write("New Url (blank to leave unchanged: ");
             string content = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(content))
             {
-                BlogToEdit.Content = content;
+                BlogToEdit.Url = content;
             }
-            Console.Write("New Date (blank to leave unchanged: ");
-
-
-            BlogToEdit.CreateDateTime = DateTime.Now;
 
 
             _BlogRepository.Update(BlogToEdit);
