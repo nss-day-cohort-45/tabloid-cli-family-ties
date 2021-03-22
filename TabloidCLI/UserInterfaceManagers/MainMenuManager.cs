@@ -22,14 +22,14 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine(" 0) Exit");
 
             Console.Write("> ");
-            string choice = GetMenuSelection();
-
-            bool runningMenu = true;
-            while (runningMenu)
-            {
+            string choice = Console.ReadLine();
+      
+            //bool runningMenu = true;
+            //while (runningMenu)
+            //{
                 switch (choice)
                 {
-                    case "1": return JournalManager(this, CONNECTION_STRING);
+                    case "1": return new JournalManager(this, CONNECTION_STRING);
                     case "2": throw new NotImplementedException();
                     case "3": return new AuthorManager(this, CONNECTION_STRING);
                     case "4": throw new NotImplementedException();
@@ -42,48 +42,48 @@ namespace TabloidCLI.UserInterfaceManagers
                         Console.WriteLine("Invalid Selection");
                         return this;
                 }
-            }
+            //}
         }
 
-        static string GetMenuSelection()
-        {
-            Console.Clear();
+        //    static string GetMenuSelection()
+        //    {
+        //        Console.Clear();
 
-            List<string> options = new List<string>()
-        {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "0",
-        };
+        //        List<string> options = new List<string>()
+        //    {
+        //        "1",
+        //        "2",
+        //        "3",
+        //        "4",
+        //        "5",
+        //        "6",
+        //        "0",
+        //    };
 
-            for (int i = 0; i < options.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {options[i]}");
-            }
+        //        for (int i = 0; i < options.Count; i++)
+        //        {
+        //            Console.WriteLine($"{i + 1}. {options[i]}");
+        //        }
 
-            while (true)
-            {
-                try
-                {
-                    Console.WriteLine();
-                    Console.Write("Select an option > ");
+        //        while (true)
+        //        {
+        //            try
+        //            {
+        //                Console.WriteLine();
+        //                Console.Write("Select an option > ");
 
-                    string input = Console.ReadLine();
-                    int index = int.Parse(input) - 1;
-                    return options[index];
-                }
-                catch (Exception)
-                {
+        //                string input = Console.ReadLine();
+        //                int index = int.Parse(input) - 1;
+        //                return options[index];
+        //            }
+        //            catch (Exception)
+        //            {
 
-                    continue;
-                }
-            }
+        //                continue;
+        //            }
+        //        }
 
-        }
+        //    }
 
     }
 }
