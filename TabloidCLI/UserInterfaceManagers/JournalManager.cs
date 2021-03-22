@@ -104,7 +104,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
             //make this an auto time setter
             Console.WriteLine("Date: ");
-            journal.CreateDateTime = Console.ReadLine();
+            journal.CreateDateTime = DateTime.Now;
 
             _JournalRepository.Insert(journal);
         }
@@ -131,11 +131,10 @@ namespace TabloidCLI.UserInterfaceManagers
                 JournalToEdit.Content = content;
             }
             Console.Write("New Date (blank to leave unchanged: ");
-            string time = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(time))
-            {
-                JournalToEdit.CreateDateTime = time;
-            }
+            
+           
+                JournalToEdit.CreateDateTime = DateTime.Now;
+           
 
             _JournalRepository.Update(JournalToEdit);
         }
