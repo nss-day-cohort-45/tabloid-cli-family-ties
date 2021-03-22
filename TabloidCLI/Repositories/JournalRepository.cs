@@ -44,6 +44,7 @@ namespace TabloidCLI.Repositories
 
                     return journals;
                 }
+                
             }
         }
 

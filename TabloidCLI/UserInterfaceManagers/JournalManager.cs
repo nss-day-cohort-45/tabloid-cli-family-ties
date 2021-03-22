@@ -29,6 +29,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
             Console.Write("> ");
             string choice = Console.ReadLine();
+
             switch (choice)
             {
                 case "1":
@@ -54,9 +55,9 @@ namespace TabloidCLI.UserInterfaceManagers
         private void List()
         {
             List<Journal> Journals = _JournalRepository.GetAll();
-            foreach (Journal Journal in Journals)
+            foreach (Journal journal in Journals)
             {
-                Console.WriteLine(Journal);
+                Console.WriteLine($"{journal.Title}, {journal.Content}, {journal.CreateDateTime}");
             }
         }
 
