@@ -8,11 +8,11 @@ using TabloidCLI.UserInterfaceManagers;
 
 namespace TabloidCLI.Repositories
 {
-    class JournalRepository : DatabaseConnector, IRepository<Journal>
+    class BlogRepository : DatabaseConnector, IRepository<Blog>
     {
-        public JournalRepository(string connectionString) : base(connectionString) { }
+        public BlogRepository(string connectionString) : base(connectionString) { }
 
-        public List<Journal> GetAll()
+        public List<Blog> GetAll()
         {
             using (SqlConnection conn = Connection)
             {
@@ -21,71 +21,67 @@ namespace TabloidCLI.Repositories
                 {
                     cmd.CommandText = @"SELECT id,
                                                Title,
-                                               Content,
-                                               CreateDateTime
-                                          FROM Journal";
+                                               Url,
+                                          FROM Blog";
 
-                    List<Journal> journals = new List<Journal>();
+                    List<Blog> blogs = new List<Blog>();
 
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Journal journal = new Journal()
+                        Blog blog = new Blog()
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Title = reader.GetString(reader.GetOrdinal("Title")),
-                            Content = reader.GetString(reader.GetOrdinal("Content")),
-                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                            Url = reader.GetString(reader.GetOrdinal("Url")),
                         };
-                        journals.Add(journal);
+                        blogs.Add(blog);
                     }
 
                     reader.Close();
 
-                    return journals;
+                    return blogs;
                 }
 
             }
         }
 
-        public void Insert(Journal journal)
+        public void Insert(Blog blog)
         {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Journal (Title, Content, CreateDateTime )
+                    cmd.CommandText = @"INSERT INTO Blog (Title, Content, Url )
                                                         OUTPUT INSERTED.Id
                                                      VALUES (@title, @content, @createDateTime)";
-                    cmd.Parameters.AddWithValue("@title", journal.Title);
-                    cmd.Parameters.AddWithValue("@content", journal.Content);
-                    cmd.Parameters.AddWithValue("@createDateTime", journal.CreateDateTime);
+                    cmd.Parameters.AddWithValue("@title", blog.Title);
+                    cmd.Parameters.AddWithValue("@content", blog.Url);
+                    
 
                     int id = (int)cmd.ExecuteScalar();
 
-                    journal.Id = id;
+                    blog.Id = id;
                 }
             }
         }
 
-        public void Update(Journal journal)
+        public void Update(Blog blog)
         {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"UPDATE Journal 
+                    cmd.CommandText = @"UPDATE Blog 
                                            SET Title = @title,
-                                               Content = @content,
-                                               CreateDateTime = @createDateTime
+                                               Url = @url,
                                          WHERE id = @id";
 
-                    cmd.Parameters.AddWithValue("@title", journal.Title);
-                    cmd.Parameters.AddWithValue("@content", journal.Content);
-                    cmd.Parameters.AddWithValue("@createDateTime", journal.CreateDateTime);
-                    cmd.Parameters.AddWithValue("@id", journal.Id);
+                    cmd.Parameters.AddWithValue("@title", blog.Title);
+                    cmd.Parameters.AddWithValue("@content", blog.Url);
+                    cmd.Parameters.AddWithValue("@id", blog.Id);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -100,41 +96,39 @@ namespace TabloidCLI.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
 
-                    cmd.CommandText = "DELETE FROM Journal WHERE Id = @id";
+                    cmd.CommandText = "DELETE FROM Blog WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.ExecuteNonQuery();
                 }
             }
         }
-        public Journal Get(int id)
+        public Blog Get(int id)
         {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT j.Id AS JournalId,
+                    cmd.CommandText = @"SELECT j.Id AS BlogId,
                                                j.Title,
-                                               j.Content,
-                                               j.CreateDateTime,
-                                                FROM Journal j 
+                                               j.Url,
+                                                FROM Blog b
                                          WHERE j.id = @id";
 
                     cmd.Parameters.AddWithValue("@id", id);
 
-                    Journal Journal = null;
+                    Blog Blog = null;
 
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        if (Journal == null)
+                        if (Blog == null)
                         {
-                            Journal = new Journal()
+                            Blog = new Blog()
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("JournalId")),
+                                Id = reader.GetInt32(reader.GetOrdinal("BlogId")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
-                                Content = reader.GetString(reader.GetOrdinal("Content")),
-                                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                                Url = reader.GetString(reader.GetOrdinal("Url")),
                             };
                         }
 
@@ -142,7 +136,7 @@ namespace TabloidCLI.Repositories
 
 
                     }
-                    return Journal;
+                    return Blog;
                 }
 
             }
