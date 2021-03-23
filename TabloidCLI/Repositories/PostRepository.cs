@@ -12,7 +12,7 @@ namespace TabloidCLI.Repositories
     {
         public PostRepository(string connectionString) : base(connectionString) { }
 
-        public List<Post> GetAll()
+        public List<Post> GetAll()//this is telling the server that we want a list of all of the posts
         {
             using (SqlConnection conn = Connection)
             {
@@ -23,6 +23,8 @@ namespace TabloidCLI.Repositories
                                                Title,
                                                URL,
                                                PublishDateTime,
+                                               BlogId,
+                                               AuthorId,
                                           FROM Post";
 
                     List<Post> posts = new List<Post>();
