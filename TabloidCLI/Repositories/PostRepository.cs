@@ -19,7 +19,12 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+<<<<<<< HEAD
                     cmd.CommandText = @"SELECT * FROM Post";
+=======
+                    cmd.CommandText = @"SELECT *
+                                          FROM Post p LEFT JOIN Author a ON p.AuthorId = a.Id";
+>>>>>>> 71f7240e203802d2dd156b225a77617e64cbdd28
 
                     List<Post> posts = new List<Post>();
 
@@ -51,6 +56,7 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+<<<<<<< HEAD
                     cmd.CommandText = @"INSERT INTO Post (Title, URL, PublishDateTime, Author, BlogId )
                                                         OUTPUT INSERTED.Id
                                                      VALUES (@title, @URL, @PublishDateTime, @Author, @BlogId)";
@@ -59,6 +65,16 @@ namespace TabloidCLI.Repositories
                     cmd.Parameters.AddWithValue("@PublishDateTime", post.PublishDateTime);
                     cmd.Parameters.AddWithValue("@Author", post.Author);
                     cmd.Parameters.AddWithValue("@BlogId", post.BlogId);
+=======
+                    cmd.CommandText = @"INSERT INTO Post (Title, URL, PublishDateTime, AuthorId, BlogId )
+                                                        OUTPUT INSERTED.Id
+                                                     VALUES (@title, @URL, @PublishDateTime, @AuthorId, @BlogId)";
+                    cmd.Parameters.AddWithValue("@title", post.Title);
+                    cmd.Parameters.AddWithValue("@URL", post.URL);
+                    cmd.Parameters.AddWithValue("@PublishDateTime", post.PublishDateTime);
+                    cmd.Parameters.AddWithValue("@AuthorId", post.Author.Id);
+                    cmd.Parameters.AddWithValue("@BlogId", post.Blog.Id);
+>>>>>>> 71f7240e203802d2dd156b225a77617e64cbdd28
 
                     int id = (int)cmd.ExecuteScalar();
 

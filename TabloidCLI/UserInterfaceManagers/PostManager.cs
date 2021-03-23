@@ -9,7 +9,12 @@ namespace TabloidCLI.UserInterfaceManagers
     {
         private readonly IUserInterfaceManager _parentUI;
         private PostRepository _PostRepository;
+<<<<<<< HEAD
         private AuthorRepository _AuthorRepository;
+=======
+        private AuthorRepository _authorRepository;
+        private BlogRepository _blogRepository;
+>>>>>>> 71f7240e203802d2dd156b225a77617e64cbdd28
         private string _connectionString;
 
         public PostManager(IUserInterfaceManager parentUI, string connectionString)
@@ -18,6 +23,8 @@ namespace TabloidCLI.UserInterfaceManagers
             _PostRepository = new PostRepository(connectionString);
             _AuthorRepository = new AuthorRepository(connectionString);
             _connectionString = connectionString;
+            _authorRepository = new AuthorRepository(connectionString);
+            _blogRepository = new BlogRepository(connectionString);
         }
 
         public IUserInterfaceManager Execute()
@@ -135,9 +142,34 @@ namespace TabloidCLI.UserInterfaceManagers
 
             Post.PublishDateTime = DateTime.Now;
 
+            Console.WriteLine("Please Choose an Author:");
+            List<Author> authors = _authorRepository.GetAll();
 
-            _PostRepository.Insert(Post);
+            for (int i = 0; i < authors.Count; i++)
+            {
+                Author author = authors[i];
+                Console.WriteLine($" {i + 1}) {author.FullName}");
+            }
+            Console.Write("> ");
+
+            string input = Console.ReadLine();
+            try
+            {
+                int choice = int.Parse(input);
+                post.authors[choice - 1];
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Invalid Selection");
+            }
+
+            Console.WriteLine("Please choose the blog this post came from");
+
         }
+        _PostRepository.Insert(Post);
+        
+          }
+    
 
         private void Edit()
         {
@@ -176,4 +208,3 @@ namespace TabloidCLI.UserInterfaceManagers
         }
     }
 }
-
