@@ -9,12 +9,14 @@ namespace TabloidCLI.UserInterfaceManagers
     {
         private readonly IUserInterfaceManager _parentUI;
         private PostRepository _PostRepository;
+        private AuthorRepository _AuthorRepository;
         private string _connectionString;
 
         public PostManager(IUserInterfaceManager parentUI, string connectionString)
         {
             _parentUI = parentUI;
             _PostRepository = new PostRepository(connectionString);
+            _AuthorRepository = new AuthorRepository(connectionString);
             _connectionString = connectionString;
         }
 
@@ -102,6 +104,36 @@ namespace TabloidCLI.UserInterfaceManagers
 
             Console.WriteLine("Text URL: ");
             Post.URL = Console.ReadLine();
+            Console.WriteLine("Please Choose an Author:");
+
+            List<Author> authors = _AuthorRepository.GetAll();
+
+            for (int i = 0; i < authors.Count; i++)
+            {
+                Author author = authors[i];
+                Console.WriteLine($" {i + 1}) {author.FullName}");
+            }
+            Console.Write("> ");
+
+            string input = Console.ReadLine();
+            try
+            {
+                int choice = int.Parse(input);
+                Author authorObject = authors.Find(a => a.Id == choice);
+                Post.Author = authorObject;
+
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Invalid Selection");
+            }
+            
+
+            Console.WriteLine("Please choose the blog this post came from");
+
+
+
+            Post.PublishDateTime = DateTime.Now;
 
 
             _PostRepository.Insert(Post);

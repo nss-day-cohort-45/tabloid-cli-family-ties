@@ -19,13 +19,7 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT id,
-                                               Title,
-                                               URL,
-                                               PublishDateTime,
-                                               BlogId,
-                                               AuthorId,
-                                          FROM Post";
+                    cmd.CommandText = @"SELECT * FROM Post";
 
                     List<Post> posts = new List<Post>();
 
@@ -57,12 +51,14 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Post (Title, URL, PublishDateTime )
+                    cmd.CommandText = @"INSERT INTO Post (Title, URL, PublishDateTime, Author, BlogId )
                                                         OUTPUT INSERTED.Id
-                                                     VALUES (@title, @URL, @createDateTime)";
+                                                     VALUES (@title, @URL, @PublishDateTime, @Author, @BlogId)";
                     cmd.Parameters.AddWithValue("@title", post.Title);
                     cmd.Parameters.AddWithValue("@URL", post.URL);
-                    cmd.Parameters.AddWithValue("@createDateTime", post.PublishDateTime);
+                    cmd.Parameters.AddWithValue("@PublishDateTime", post.PublishDateTime);
+                    cmd.Parameters.AddWithValue("@Author", post.Author);
+                    cmd.Parameters.AddWithValue("@BlogId", post.BlogId);
 
                     int id = (int)cmd.ExecuteScalar();
 
