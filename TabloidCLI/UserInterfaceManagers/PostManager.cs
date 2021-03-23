@@ -57,7 +57,7 @@ namespace TabloidCLI.UserInterfaceManagers
             List<Post> Posts = _PostRepository.GetAll();
             foreach (Post Post in Posts)
             {
-                Console.WriteLine($"{Post.Title}, {Post.Content}, {Post.CreateDateTime}");
+                Console.WriteLine($"{Post.Title}, {Post.URL}");
             }
         }
 
@@ -100,12 +100,9 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("Title: ");
             Post.Title = Console.ReadLine();
 
-            Console.WriteLine("Text Content: ");
-            Post.Content = Console.ReadLine();
+            Console.WriteLine("Text URL: ");
+            Post.URL = Console.ReadLine();
 
-            //make this an auto time setter
-            Console.WriteLine("Date: ");
-            Post.CreateDateTime = DateTime.Now;
 
             _PostRepository.Insert(Post);
         }
@@ -125,16 +122,13 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 PostToEdit.Title = title;
             }
-            Console.Write("New content (blank to leave unchanged: ");
-            string content = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(content))
+            Console.Write("New Url (blank to leave unchanged: ");
+            string Url = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(Url))
             {
-                PostToEdit.Content = content;
+                PostToEdit.URL = Url;
             }
-            Console.Write("New Date (blank to leave unchanged: ");
 
-
-            PostToEdit.CreateDateTime = DateTime.Now;
 
 
             _PostRepository.Update(PostToEdit);
