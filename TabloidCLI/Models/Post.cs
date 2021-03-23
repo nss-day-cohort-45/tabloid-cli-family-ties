@@ -6,6 +6,9 @@ namespace TabloidCLI.Models
 {
     public class Post
     {
+        internal readonly object BlogId;
+        internal readonly object AuthorId;
+
         public int Id { get; set; }
         public string Title { get; set; }
         public string URL { get; set; } 

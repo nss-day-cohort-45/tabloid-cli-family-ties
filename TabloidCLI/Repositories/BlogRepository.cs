@@ -21,7 +21,7 @@ namespace TabloidCLI.Repositories
                 {
                     cmd.CommandText = @"SELECT id,
                                                Title,
-                                               Url,
+                                               URL
                                           FROM Blog";
 
                     List<Blog> blogs = new List<Blog>();
@@ -53,11 +53,11 @@ namespace TabloidCLI.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Blog (Title, Content, Url )
+                    cmd.CommandText = @"INSERT INTO Blog (Title, URL )
                                                         OUTPUT INSERTED.Id
-                                                     VALUES (@title, @content, @createDateTime)";
+                                                     VALUES (@title, @URL)";
                     cmd.Parameters.AddWithValue("@title", blog.Title);
-                    cmd.Parameters.AddWithValue("@content", blog.Url);
+                    cmd.Parameters.AddWithValue("@URL", blog.Url);
                     
 
                     int id = (int)cmd.ExecuteScalar();
@@ -76,12 +76,12 @@ namespace TabloidCLI.Repositories
                 {
                     cmd.CommandText = @"UPDATE Blog 
                                            SET Title = @title,
-                                               Url = @url,
-                                         WHERE id = @id";
+                                               Url = @URL
+                                         WHERE Id = @Id";
 
                     cmd.Parameters.AddWithValue("@title", blog.Title);
-                    cmd.Parameters.AddWithValue("@content", blog.Url);
-                    cmd.Parameters.AddWithValue("@id", blog.Id);
+                    cmd.Parameters.AddWithValue("@URL", blog.Url);
+                    cmd.Parameters.AddWithValue("@Id", blog.Id);
 
                     cmd.ExecuteNonQuery();
                 }
